@@ -1,20 +1,23 @@
 package com.example.a30797.androidclock;
 
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.a30797.androidclock.image.ImageManager;
+
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,15 +29,16 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private TextView textViewDate;
     private FloatingActionButton fab;
+    private BitmapWorkerTask task;
 
     private int[] imageIds = new int[]{
             R.drawable.bac_1,
-            R.drawable.bac_2,
             R.drawable.bac_3,
+            R.drawable.bac_2,
             R.drawable.bac_4,
             R.drawable.bac_5,
-            R.drawable.bac_6,
-            R.drawable.bac_7
+            R.drawable.bac_7,
+            R.drawable.bac_6
     };
 
     private Handler handler = new Handler(){
@@ -61,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         refreshTime();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        Toast.makeText(this, "欢迎来到元昊的小时钟～", Toast.LENGTH_SHORT).show();
     }
 
     private void iniViews(){
@@ -102,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
 
     // 悬浮按钮 更换背景
     public void change(View view){
-        imageView.setImageResource(imageIds[num++]);
+        task = new BitmapWorkerTask(imageView, 1000);
+        task.execute(imageIds[num++]);
         num %= 7;
         textViewDate.setVisibility(View.VISIBLE);
         flagI = true;
@@ -146,4 +150,41 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    class BitmapWorkerTask extends AsyncTask {
+
+        private final WeakReference imageViewReference;
+        private int data = 0;
+        private int width;
+        private Bitmap bitmap;
+
+        public BitmapWorkerTask(ImageView imageView, int width) {
+            // 使用弱引用
+            imageViewReference = new WeakReference(imageView);
+            this.width = width;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            bitmap = (Bitmap) o;
+            if (imageViewReference != null && bitmap != null) {
+                final ImageView imageView = (ImageView) imageViewReference.get();
+                if (imageView != null) {
+                    imageView.setImageBitmap(bitmap);
+                }
+            }
+        }
+
+        // 在后台线程压缩图片
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            data = (int) objects[0];
+            if ( bitmap!=null && !bitmap.isRecycled() ){
+                bitmap.recycle();
+            }
+            bitmap = ImageManager.decodeSampledBitmapFromResource(getResources(), data, width, width/2 + 10);
+            return bitmap;
+        }
+    }
+
 }
