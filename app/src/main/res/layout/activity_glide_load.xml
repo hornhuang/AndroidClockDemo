@@ -7,6 +7,13 @@
     android:orientation="vertical"
     tools:context=".activities.GlideLoadActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:title="@string/method_glide"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="@color/colorTextWhite"/>
+
     <ImageView
         android:id="@+id/normal_image"
         android:layout_width="match_parent"

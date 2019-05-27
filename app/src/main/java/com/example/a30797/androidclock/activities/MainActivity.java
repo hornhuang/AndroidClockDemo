@@ -172,10 +172,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showFABMenu(){
         isFABOpen=true;
-        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
-        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_125));
-        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_185));
-        fab4.animate().translationY(-getResources().getDimension(R.dimen.standard_225));
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_65)).setDuration(100);
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_125)).setDuration(200);
+        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_185)).setDuration(300);
+        fab4.animate().translationY(-getResources().getDimension(R.dimen.standard_225)).setDuration(400);
     }
 
     private void closeFABMenu(){
@@ -216,12 +216,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.fab2:
                 Log.d("123123", "2");
-
+                GlideLoadActivity.anctionStart(MainActivity.this);
                 break;
 
             case R.id.fab3:
                 Log.d("123123", "3");
-
+                PicassoLoadActivity.anctionStart(MainActivity.this);
                 break;
 
             case R.id.fab4:

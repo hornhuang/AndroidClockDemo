@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AndroidClock</string>
+
+    <string name="method_normal">Normal</string>
+    <string name="method_picasso">Picasso</string>
+    <string name="method_glide">Glide</string>
 </resources>
