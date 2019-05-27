@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -32,7 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textView;
     private TextView textViewDate;
     private FloatingActionButton fab;
-    private boolean yexyColorFlag = true;
+
+    private boolean isFABOpen = true;
+    private FloatingActionButton fab1,fab2,fab3, fab4;
 
     private int[] imageIds = new int[]{
             R.drawable.bac_1,
@@ -68,9 +71,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         refreshTime();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        Uri uri = Uri.parse("res://com.example.a30797.androidclock/" + imageIds[0]);
-        imageView.setImageURI(uri);
-
     }
 
     private void iniViews(){
@@ -78,11 +78,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView = findViewById(R.id.background);
         textViewDate = findViewById(R.id.date);
         fab = findViewById(R.id.fab);
+        fab1 = findViewById(R.id.fab1);
+        fab2 = findViewById(R.id.fab2);
+        fab3 = findViewById(R.id.fab3);
+        fab4 = findViewById(R.id.fab4);
 
         textView.setOnClickListener(this);
+        fab.setOnClickListener(this);
+        fab1.setOnClickListener(this);
+        fab2.setOnClickListener(this);
+        fab3.setOnClickListener(this);
+        fab4.setOnClickListener(this);
 
         int textSise = getWindowManager().getDefaultDisplay().getWidth()/20;
         textView.setTextSize(adjustFontSize(textSise*10));
+
+        Uri uri = Uri.parse("res://com.example.a30797.androidclock/" + imageIds[0]);
+        imageView.setImageURI(uri);
     }
 
     // 事件刷新线程
@@ -112,10 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     // 悬浮按钮 更换背景
-    public void change(View view){
-//        task = new BitmapWorkerTask(imageView, 1000);
-//        task.execute(imageIds[num++]);
-        //加载本地图片              "res://包名/"+R.mipmap.图片id
+    public void change(){
         Uri uri = Uri.parse("res://com.example.a30797.androidclock/" + imageIds[num++]);
         imageView.setImageURI(uri);
         num %= 7;
@@ -136,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // 更具屏幕配适字体
     public static int adjustFontSize(int screenWidth){
         if (screenWidth <= 240) { 		// 240X320 屏幕
-
             return 40;
 
         }else if (screenWidth <= 320){	// 320X480 屏幕
@@ -162,6 +170,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void showFABMenu(){
+        isFABOpen=true;
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_125));
+        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_185));
+        fab4.animate().translationY(-getResources().getDimension(R.dimen.standard_225));
+    }
+
+    private void closeFABMenu(){
+        isFABOpen=false;
+        fab1.animate().translationY(0).setDuration(150);
+        fab2.animate().translationY(0).setDuration(300);
+        fab3.animate().translationY(0).setDuration(450);
+        fab4.animate().translationY(0).setDuration(600);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -175,46 +199,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 break;
+
+            case R.id.fab:
+                Log.d("123123", "0");
+                if (!isFABOpen){
+                    showFABMenu();
+                }else {
+                    closeFABMenu();
+                }
+                break;
+
+            case R.id.fab1:
+                Log.d("123123", "1");
+                change();
+                break;
+
+            case R.id.fab2:
+                Log.d("123123", "2");
+
+                break;
+
+            case R.id.fab3:
+                Log.d("123123", "3");
+
+                break;
+
+            case R.id.fab4:
+                Log.d("123123", "4");
+                OriginalActivity.anctionStart(MainActivity.this);
+                break;
+
+            default:
+
+                break;
         }
     }
 
-    //
-//    class BitmapWorkerTask extends AsyncTask {
-//
-//        private final WeakReference imageViewReference;
-//        private int data = 0;
-//        private int width;
-//        private Bitmap bitmap;
-//
-//        public BitmapWorkerTask(ImageView imageView, int width) {
-//            // 使用弱引用
-//            imageViewReference = new WeakReference(imageView);
-//            this.width = width;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Object o) {
-//            bitmap = (Bitmap) o;
-//            if (imageViewReference != null && bitmap != null) {
-//                final ImageView imageView = (SimpleDraweeView) imageViewReference.get();
-//                if (imageView != null) {
-//                    //加载本地图片              "res://包名/"+R.mipmap.图片id
-//                    Uri uri = Uri.parse("res://com.example.a30797.androidclock/" + );
-//                    imageView.setImageURI(uri);
-//                }
-//            }
-//        }
-//
-//        // 在后台线程压缩图片
-//        @Override
-//        protected Object doInBackground(Object[] objects) {
-//            data = (int) objects[0];
-//            if ( bitmap!=null && !bitmap.isRecycled() ){
-//                bitmap.recycle();
-//            }
-//            bitmap = ImageManager.decodeSampledBitmapFromResource(getResources(), data, width, width/2 + 10);
-//            return bitmap;
-//        }
-//    }
+
 
 }
