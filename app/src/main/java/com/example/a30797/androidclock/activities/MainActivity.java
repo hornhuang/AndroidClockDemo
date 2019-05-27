@@ -1,8 +1,9 @@
-package com.example.a30797.androidclock;
+package com.example.a30797.androidclock.activities;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -15,21 +16,23 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.a30797.androidclock.R;
 import com.example.a30797.androidclock.image.ImageManager;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int num = 1;         //num用于确定背景图
     private boolean flagI = true;//i 用于控制日期显隐
-    private ImageView imageView;
+    private SimpleDraweeView imageView;
     private TextView textView;
     private TextView textViewDate;
     private FloatingActionButton fab;
-    private BitmapWorkerTask task;
+    private boolean yexyColorFlag = true;
 
     private int[] imageIds = new int[]{
             R.drawable.bac_1,
@@ -65,13 +68,18 @@ public class MainActivity extends AppCompatActivity {
         refreshTime();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        Uri uri = Uri.parse("res://com.example.a30797.androidclock/" + imageIds[0]);
+        imageView.setImageURI(uri);
+
     }
 
     private void iniViews(){
-        textView = (TextView) findViewById(R.id.txt);
-        imageView = (ImageView) findViewById(R.id.background);
-        textViewDate = (TextView) findViewById(R.id.date);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        textView = findViewById(R.id.txt);
+        imageView = findViewById(R.id.background);
+        textViewDate = findViewById(R.id.date);
+        fab = findViewById(R.id.fab);
+
+        textView.setOnClickListener(this);
 
         int textSise = getWindowManager().getDefaultDisplay().getWidth()/20;
         textView.setTextSize(adjustFontSize(textSise*10));
@@ -105,8 +113,11 @@ public class MainActivity extends AppCompatActivity {
 
     // 悬浮按钮 更换背景
     public void change(View view){
-        task = new BitmapWorkerTask(imageView, 1000);
-        task.execute(imageIds[num++]);
+//        task = new BitmapWorkerTask(imageView, 1000);
+//        task.execute(imageIds[num++]);
+        //加载本地图片              "res://包名/"+R.mipmap.图片id
+        Uri uri = Uri.parse("res://com.example.a30797.androidclock/" + imageIds[num++]);
+        imageView.setImageURI(uri);
         num %= 7;
         textViewDate.setVisibility(View.VISIBLE);
         flagI = true;
@@ -151,40 +162,59 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class BitmapWorkerTask extends AsyncTask {
-
-        private final WeakReference imageViewReference;
-        private int data = 0;
-        private int width;
-        private Bitmap bitmap;
-
-        public BitmapWorkerTask(ImageView imageView, int width) {
-            // 使用弱引用
-            imageViewReference = new WeakReference(imageView);
-            this.width = width;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            bitmap = (Bitmap) o;
-            if (imageViewReference != null && bitmap != null) {
-                final ImageView imageView = (ImageView) imageViewReference.get();
-                if (imageView != null) {
-                    imageView.setImageBitmap(bitmap);
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.txt:
+                if (flagI){
+                    textView.setTextColor(getResources().getColor(R.color.colorTextWhite));
+                    flagI = !flagI;
+                }else {
+                    textView.setTextColor(getResources().getColor(R.color.colorTextGray));
+                    flagI = !flagI;
                 }
-            }
-        }
 
-        // 在后台线程压缩图片
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            data = (int) objects[0];
-            if ( bitmap!=null && !bitmap.isRecycled() ){
-                bitmap.recycle();
-            }
-            bitmap = ImageManager.decodeSampledBitmapFromResource(getResources(), data, width, width/2 + 10);
-            return bitmap;
+                break;
         }
     }
+
+    //
+//    class BitmapWorkerTask extends AsyncTask {
+//
+//        private final WeakReference imageViewReference;
+//        private int data = 0;
+//        private int width;
+//        private Bitmap bitmap;
+//
+//        public BitmapWorkerTask(ImageView imageView, int width) {
+//            // 使用弱引用
+//            imageViewReference = new WeakReference(imageView);
+//            this.width = width;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Object o) {
+//            bitmap = (Bitmap) o;
+//            if (imageViewReference != null && bitmap != null) {
+//                final ImageView imageView = (SimpleDraweeView) imageViewReference.get();
+//                if (imageView != null) {
+//                    //加载本地图片              "res://包名/"+R.mipmap.图片id
+//                    Uri uri = Uri.parse("res://com.example.a30797.androidclock/" + );
+//                    imageView.setImageURI(uri);
+//                }
+//            }
+//        }
+//
+//        // 在后台线程压缩图片
+//        @Override
+//        protected Object doInBackground(Object[] objects) {
+//            data = (int) objects[0];
+//            if ( bitmap!=null && !bitmap.isRecycled() ){
+//                bitmap.recycle();
+//            }
+//            bitmap = ImageManager.decodeSampledBitmapFromResource(getResources(), data, width, width/2 + 10);
+//            return bitmap;
+//        }
+//    }
 
 }
