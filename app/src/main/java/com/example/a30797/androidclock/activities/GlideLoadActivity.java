@@ -57,6 +57,7 @@ public class GlideLoadActivity extends AppCompatActivity {
                 .load(R.drawable.gif_text)
                 .asGif()
                 .error(R.drawable.app_icon)
+                .placeholder(R.drawable.bac_1)
                 .into(mGlideGifImage);
     }
 

@@ -14,6 +14,7 @@ public class PicassoLoadActivity extends AppCompatActivity {
 
     private ImageView mPicassoImage;
 
+    private int rotateAngle = 0;
     private int num = 0;
     private int[] imageIds = new int[]{
             R.drawable.bac_1,
@@ -41,19 +42,17 @@ public class PicassoLoadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadImage();
-                num %= 7;
             }
         });
     }
 
     private void loadImage(){
-        num %= 7;
-        Uri uri = Uri.parse("res://com.example.a30797.androidclock/" + imageIds[num++]);
         Picasso.get()
-                .load(uri)
-                .resize(300, 600)// 裁剪
-                .rotate(50)// 旋转大小
+                .load(imageIds[num++])
+                .resize(350, 600)// 裁剪
+                .rotate(rotateAngle+=10)// 旋转大小
                 .into(mPicassoImage);
+        num %= 7;
     }
 
     public static void anctionStart(AppCompatActivity activity){
