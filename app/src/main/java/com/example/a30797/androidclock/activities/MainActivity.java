@@ -203,7 +203,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.fab:
-                Log.d("123123", "0");
                 if (!isFABOpen){
                     showFABMenu();
                 }else {
@@ -212,22 +211,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.fab1:
-                Log.d("123123", "1");
                 change();
                 break;
 
             case R.id.fab2:
-                Log.d("123123", "2");
                 GlideLoadActivity.anctionStart(MainActivity.this);
                 break;
 
             case R.id.fab3:
-                Log.d("123123", "3");
                 PicassoLoadActivity.anctionStart(MainActivity.this);
                 break;
 
             case R.id.fab4:
-                Log.d("123123", "4");
                 OriginalActivity.anctionStart(MainActivity.this);
                 break;
 
