@@ -28,9 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_margin="20sp"
         android:onClick="show"
         android:textColor="@color/colorPrimary"
         android:textSize="13pt" />
@@ -42,10 +40,12 @@
         android:layout_marginLeft="10dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_margin="10dp"
+        android:scaleType="fitXY"
         android:src="@drawable/float_icon"
-        app:elevation="8dp" />
+        app:elevation="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentEnd="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab2"
@@ -54,10 +54,12 @@
         android:layout_marginLeft="10dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_margin="10dp"
         android:src="@drawable/float_icon"
-        app:elevation="8dp" />
+        android:scaleType="fitXY"
+        app:elevation="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentEnd="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab3"
@@ -66,10 +68,12 @@
         android:layout_marginLeft="10dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_margin="10dp"
         android:src="@drawable/float_icon"
-        app:elevation="8dp" />
+        android:scaleType="fitXY"
+        app:elevation="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentEnd="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab4"
@@ -78,10 +82,12 @@
         android:layout_marginLeft="10dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_margin="10dp"
         android:src="@drawable/float_icon"
-        app:elevation="8dp" />
+        android:scaleType="fitXY"
+        app:elevation="8dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -90,9 +96,11 @@
         android:layout_marginLeft="10dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_margin="10dp"
         android:src="@drawable/float_icon"
-        app:elevation="8dp" />
+        android:scaleType="center"
+        app:elevation="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

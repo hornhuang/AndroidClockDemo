@@ -172,18 +172,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showFABMenu(){
         isFABOpen=true;
-        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_65)).setDuration(100);
-        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_125)).setDuration(200);
-        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_185)).setDuration(300);
-        fab4.animate().translationY(-getResources().getDimension(R.dimen.standard_225)).setDuration(400);
+        fab.animate().rotation(180).setDuration(200);
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_65)).setDuration(50);
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_125)).setDuration(100);
+        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_185)).setDuration(150);
+        fab4.animate().translationY(-getResources().getDimension(R.dimen.standard_225)).setDuration(200);
     }
 
     private void closeFABMenu(){
         isFABOpen=false;
-        fab1.animate().translationY(0).setDuration(150);
-        fab2.animate().translationY(0).setDuration(300);
-        fab3.animate().translationY(0).setDuration(450);
-        fab4.animate().translationY(0).setDuration(600);
+        fab.animate().rotation(0).setDuration(200);
+        fab1.animate().translationY(0).setDuration(40);
+        fab2.animate().translationY(0).setDuration(80);
+        fab3.animate().translationY(0).setDuration(140);
+        fab4.animate().translationY(0).setDuration(220);
     }
 
     @Override
